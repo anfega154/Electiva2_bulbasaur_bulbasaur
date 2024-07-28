@@ -1,0 +1,1 @@
+require('./infrastucture/config/server');
