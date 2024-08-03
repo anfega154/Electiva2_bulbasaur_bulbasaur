@@ -1,0 +1,6 @@
+{
+    "messages": {
+        "user_retrieved_successfully": "Usuario recuperado con éxito",
+        "user_creation_failed": "No se pudo crear el usuario"
+    }
+}
