@@ -1,6 +1,7 @@
 {
     "messages": {
         "user_retrieved_successfully": "User retrieved successfully",
-        "user_creation_failed": "User could not be created"
+        "user_creation_failed": "User could not be created",
+        "user_created_successfully": "User created successfully"
     }
 }

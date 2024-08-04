@@ -1,21 +1,31 @@
 const express = require('express');
 const BulbasaurController = require('../BulbasaurControlller');
 const HttpStatus = require('../../../Utils/helpers/Httpstatus')
+const userService = require('../../.././app/services/User/UserService')
 
 class UserController extends BulbasaurController {
     constructor() {
         super();
     }
 
-    getUser(req, res) {
-        const user = { id: 1, name: 'John Doe' }; 
-        const message = res.t('messages.user_retrieved_successfully');
-        this.success(res, user, message);
+    async getUser(req, res) {
+        try {
+            const user = await userService.getAll();
+            const message = res.t('messages.user_retrieved_successfully');
+            this.success(res, user, message);
+        } catch (err) {
+            this.error(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    createUser(req, res) {
-        const error = res.t('messages.user_creation_failed');
-        this.error(res, error, HttpStatus.BAD_REQUEST);
+    async createUser(req, res) {
+       try {
+        await userService.add(req.body)
+        const message = res.t('messages.user_created_successfully');
+        this.success(res,null,message)
+       } catch (err) {
+        this.error(res, err, HttpStatus.BAD_REQUEST);
+       }
     }
 }
 
