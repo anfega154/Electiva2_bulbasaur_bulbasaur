@@ -27,6 +27,16 @@ class UserController extends BaseController {
         this.error(res, err, HttpStatus.BAD_REQUEST);
        }
     }
+
+    async login (req, res) {
+        try {
+            await userService.login(req.body)
+            const message = res.t('messages.login_success')
+            this.success(res,null,message)
+        } catch (error) {
+            this.error(res, err, HttpStatus.BAD_REQUEST);
+        }
+    }
 }
 
 

@@ -2,7 +2,10 @@
     "messages": {
         "user_retrieved_successfully": "Usuario recuperado con éxito",
         "user_creation_failed": "No se pudo crear el usuario",
-        "user_created_successfully": "User Creado con éxito"
-
+        "user_created_successfully": "User Creado con éxito",
+        "missing_data_to_fill":"faltan datos por diligenciar",
+        "The_email_format_is_not_valid":"El formato del correo electrónico no es válido",
+        "login_success":"login exitoso",
+        "the_password_must_be_a_string": "La contraseña debe ser texto"
     }
 }

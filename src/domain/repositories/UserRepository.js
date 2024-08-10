@@ -1,5 +1,6 @@
 const RepositoryBase = require('../../Data/Repository');
 const User = require('../../domain/Models/User');
+const { Op } = require('sequelize');
 
 class UserRepository extends RepositoryBase {
   constructor() {
@@ -52,13 +53,34 @@ class UserRepository extends RepositoryBase {
     }
   }
 
-  async exist(email) {
+  async exist(email, username) {
     try {
-      return await this.model.findOne({ where: { email } });
+      return await this.model.findOne({
+        where: {
+          [Op.or]: [
+            { email },
+            { username }
+          ]
+        }
+      });
     } catch (error) {
       throw error;
     }
   }
-}
 
+  async login(username, password) {
+    try {
+      return await this.model.findOne({
+        where: {
+          [Op.and]: [
+            { username },
+            { password }
+          ]
+        }
+      });
+    } catch (err) {
+      throw err;
+    }
+  }
+}
 module.exports = UserRepository;

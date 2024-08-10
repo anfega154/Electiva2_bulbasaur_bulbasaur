@@ -13,8 +13,8 @@ const getAll = async () => {
 const add = async (data) => {
     try {
 
-        if(await userRepository.exist(data.email)){
-            throw ('el usario ya se encuentra registrado')
+        if(await userRepository.exist(data.email,data.username)){
+            throw ('user already exist')
         }
         await userRepository.create(data)
     } catch (error) {
@@ -22,7 +22,19 @@ const add = async (data) => {
     }
 }
 
+const login = async (data) => {
+    try {
+        if(await !userRepository.login(data.username,data.password)){
+            throw ('username or password invalid')
+        }
+       return await userRepository.login(data.username,data.password);
+    } catch (error) {
+       throw error; 
+    }
+}
+
 module.exports = {
     getAll,
-    add
+    add,
+    login
 }
