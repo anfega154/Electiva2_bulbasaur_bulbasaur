@@ -1,9 +1,9 @@
 const express = require('express');
-const BulbasaurController = require('../BulbasaurControlller');
+const BaseController = require('../BaseControlller');
 const HttpStatus = require('../../../Utils/helpers/Httpstatus')
 const userService = require('../../.././app/services/User/UserService')
 
-class UserController extends BulbasaurController {
+class UserController extends BaseController {
     constructor() {
         super();
     }

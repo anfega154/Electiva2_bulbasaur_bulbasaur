@@ -1,3 +1,0 @@
-npm install express
-npm install i18n
-npm install sequelize pg pg-hstore
