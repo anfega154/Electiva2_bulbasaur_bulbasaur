@@ -1,11 +1,11 @@
+const tweets = require('../../Utils/helpers/Mocks/tweets')
 class TweetRepository {
     constructor() {
-        this.tweets = [];
+        this.tweets = tweets.tweetsList;
     }
 
     create(tweet) {
         this.tweets.push(tweet.toJSON());
-        console.log(this.tweets);
     }
 
     list() {

@@ -7,7 +7,10 @@
         "The_email_format_is_not_valid":"The email format is not valid",
         "login_success":"login success",
         "the_password_must_be_a_string": "the password must be text",
-        "Tweet_created_successfully": "Tweet created successfully"
+        "Tweet_created_successfully": "Tweet created successfully",
+        "Tweets_retrieved_successfully": "Tweets retrieved successfully",
+        "content_too_long":"content too long",
+        "success_ation":"success action"
 
     }
 }

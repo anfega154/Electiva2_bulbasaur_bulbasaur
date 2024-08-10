@@ -22,7 +22,7 @@ class TweetController extends BaseController {
        getAll(req, res) {
         try {
             const tweets = tweetService.getAll();
-            const message = res.t('messages.user_retrieved_successfully');
+            const message = res.t('messages.Tweets_retrieved_successfully');
             this.success(res, tweets, message);
         } catch (err) {
             this.error(res, err, HttpStatus.INTERNAL_SERVER_ERROR);

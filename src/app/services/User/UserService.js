@@ -1,4 +1,5 @@
 const UserRepository = require('../../../domain/repositories/UserRepository')
+const bcrypt = require('bcrypt');
 const userRepository = new UserRepository();
 
 
@@ -12,26 +13,42 @@ const getAll = async () => {
 
 const add = async (data) => {
     try {
-
-        if(await userRepository.exist(data.email,data.username)){
-            throw ('user already exist')
+        const isCreated = await userRepository.exist(data.email, data.username)
+        if(isCreated != null){
+            throw Error('user already exist');
         }
-        await userRepository.create(data)
+        const hashedPassword = await bcrypt.hash(data.password, 10);
+
+        const newData = {
+            ...data,
+            password: hashedPassword
+        };
+        await userRepository.create(newData);
     } catch (error) {
-        throw (error)
+        throw error;
     }
 }
 
 const login = async (data) => {
     try {
-        if(await !userRepository.login(data.username,data.password)){
-            throw ('username or password invalid')
+        const user = await userRepository.findByUsername(data.username);
+        
+        if (!user) {
+            throw new Error('username or password invalid');
         }
-       return await userRepository.login(data.username,data.password);
+
+        const isPasswordValid = await bcrypt.compare(data.password, user.password);
+        
+        if (!isPasswordValid) {
+            throw new Error('username or password invalid');
+        }
+
+        return user;
     } catch (error) {
-       throw error; 
+        throw error;
     }
 }
+
 
 module.exports = {
     getAll,
