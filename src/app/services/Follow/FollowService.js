@@ -44,8 +44,18 @@ const getFollower = async (userId) => {
         throw error
     }
 }
+
+const getFollowings = async (userId) => {
+    try {
+        return userRepository.getFollowing(userId)
+    } catch (error) {
+        console.error('Error counting:', error);
+        throw error
+    }
+}
 module.exports = {
     follow,
     count,
-    getFollower
+    getFollower,
+    getFollowings
 }

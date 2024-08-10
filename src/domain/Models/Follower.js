@@ -29,7 +29,7 @@ const Follower = sequelize.define('Follower', {
     indexes: [
         {
             unique: true,
-            fields: ['followerId', 'followingId']
+            fields: ['followerid', 'followingid']
         }
     ]
 });

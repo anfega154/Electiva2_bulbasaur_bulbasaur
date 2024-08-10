@@ -109,7 +109,7 @@ class UserRepository extends RepositoryBase {
 
   async getFollowing(userId) {
     return await Follower.findAll({
-      where: { followerId: userId },
+      where: { followerid: userId },
       include: [{ model: User, as: 'following' }],
     });
   }
