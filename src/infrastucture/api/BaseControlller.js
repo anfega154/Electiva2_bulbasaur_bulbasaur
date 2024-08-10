@@ -31,6 +31,7 @@ class BulbasaurController {
             message: message
         });
     }
+
 }
 
 module.exports = BulbasaurController;

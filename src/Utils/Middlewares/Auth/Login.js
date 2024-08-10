@@ -1,24 +1,16 @@
 const { body, validationResult } = require('express-validator');
 const HttpStatus = require('../../helpers/Httpstatus');
 
-exports.createUsermiddleware = [
-  body('name')
-    .notEmpty()
-    .withMessage((value, { req }) => req.t('messages.missing_data_to_fill')),
-  
-  body('email')
-    .notEmpty()
-    .withMessage((value, { req }) => req.t('messages.missing_data_to_fill'))
-    .isEmail()
-    .withMessage((value, { req }) => req.t('messages.The_email_format_is_not_valid')),
-
+exports.loginMiddleware = [
   body('username')
     .notEmpty()
     .withMessage((value, { req }) => req.t('messages.missing_data_to_fill')),
-
+  
   body('password')
     .notEmpty()
-    .withMessage((value, { req }) => req.t('messages.missing_data_to_fill')),
+    .withMessage((value, { req }) => req.t('messages.missing_data_to_fill'))
+    .isString()
+    .withMessage((value, { req }) => req.t('messages.the_password_must_be_a_string')),
 
   (req, res, next) => {
     const errors = validationResult(req);
