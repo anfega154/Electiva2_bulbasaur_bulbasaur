@@ -1,22 +1,14 @@
 const { body, validationResult } = require('express-validator');
 const HttpStatus = require('../../helpers/Httpstatus');
 
-exports.createUsermiddleware = [
-  body('name')
-    .notEmpty()
-    .withMessage((value, { req }) => req.t('messages.missing_data_to_fill')),
-  
-  body('email')
+exports.tweetMiddleware = [
+  body('content')
     .notEmpty()
     .withMessage((value, { req }) => req.t('messages.missing_data_to_fill'))
-    .isEmail()
-    .withMessage((value, { req }) => req.t('messages.The_email_format_is_not_valid')),
-
-  body('username')
-    .notEmpty()
-    .withMessage((value, { req }) => req.t('messages.missing_data_to_fill')),
-
-  body('password')
+    .isLength({ max: 280 })
+    .withMessage((value, { req }) => req.t('messages.content_too_long')), 
+  
+  body('userid')
     .notEmpty()
     .withMessage((value, { req }) => req.t('messages.missing_data_to_fill')),
 

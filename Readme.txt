@@ -14,3 +14,4 @@ git clone https://github.com/anfega154/bulbasaur.git
 npm install express
 npm install i18n
 npm install sequelize pg pg-hstore
+npm install bcrypt
