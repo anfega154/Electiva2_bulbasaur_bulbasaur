@@ -1,7 +1,7 @@
 const express = require('express');
-const BaseController = require('../../BaseControlller');
-const HttpStatus = require('../../../../Utils/helpers/Httpstatus')
-const tweetService = require('../../../../app/services/Tweet/TweetsService')
+const BaseController = require('../../../infrastucture/api/BaseControlller');
+const HttpStatus = require('../../../Utils/helpers/Httpstatus')
+const tweetService = require('../Services/TweetsService')
 
 class TweetController extends BaseController {
     constructor() {

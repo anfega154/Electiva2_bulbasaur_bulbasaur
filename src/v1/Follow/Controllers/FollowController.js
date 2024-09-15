@@ -1,7 +1,7 @@
 const express = require('express');
-const BaseController = require('../../BaseControlller');
-const HttpStatus = require('../../../../Utils/helpers/Httpstatus')
-const followService = require('../../../../app/services/Follow/FollowService')
+const BaseController = require('../../../infrastucture/api/BaseControlller');
+const HttpStatus = require('../../../Utils/helpers/Httpstatus')
+const followService = require('../services/FollowService')
 
 class FollowController extends BaseController {
     constructor() {

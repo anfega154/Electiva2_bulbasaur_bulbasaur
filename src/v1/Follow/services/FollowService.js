@@ -1,4 +1,4 @@
-const UserRepository = require('../../../v1/User/Repository/UserRepository')
+const UserRepository = require('../../User/Repository/UserRepository')
 const bcrypt = require('bcrypt');
 const userRepository = new UserRepository();
 

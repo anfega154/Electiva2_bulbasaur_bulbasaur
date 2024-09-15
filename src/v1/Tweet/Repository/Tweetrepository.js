@@ -1,4 +1,4 @@
-const tweets = require('../../Utils/helpers/Mocks/tweets')
+const tweets = require('../../../Utils/helpers/Mocks/tweets')
 class TweetRepository {
     constructor() {
         this.tweets = tweets.tweetsList;

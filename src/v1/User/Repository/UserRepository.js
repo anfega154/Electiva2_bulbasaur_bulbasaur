@@ -1,6 +1,6 @@
-const RepositoryBase = require('../../../Data/Repository');
+const RepositoryBase = require('../../../infrastucture/database/Repository');
 const User = require('../Models/User');
-const Follower = require('../../../domain/Models/Follower');
+const Follower = require('../../Follow/Models/Follower');
 const { Op } = require('sequelize');
 
 class UserRepository extends RepositoryBase {

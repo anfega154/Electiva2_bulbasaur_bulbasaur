@@ -1,5 +1,5 @@
-const Tweet = require('../../../domain/entities/TweetEntity');
-const TweetRepository = require('../../../domain/repositories/TweetRepository');
+const Tweet = require('../../../infrastucture/database/entities/TweetEntity');
+const TweetRepository = require('../Repository/Tweetrepository');
 const tweetRepository = new TweetRepository();
 
 const add = (data) => {

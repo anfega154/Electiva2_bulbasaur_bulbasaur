@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../infrastucture/database/conection');
+const sequelize = require('../../../infrastucture/database/conection');
 const crypto = require('crypto');
 
 const Tweet = sequelize.define('Tweet', {

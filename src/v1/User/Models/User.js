@@ -41,4 +41,4 @@ const User = sequelize.define('User', {
 });
 
 module.exports = User;
-require ('../../../domain/Models/Associations')
+require ('../../../infrastucture/database/Associations')
