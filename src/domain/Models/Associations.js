@@ -1,4 +1,4 @@
-const User = require('./User');
+const User = require('../../v1/User/Models/User');
 const Follower = require('./Follower');
 
 User.hasMany(Follower, { foreignKey: 'followerid', as: 'following' });

@@ -1,6 +1,6 @@
-const RepositoryBase = require('../../Data/Repository');
-const User = require('../../domain/Models/User');
-const Follower = require('../../domain/Models/Follower');
+const RepositoryBase = require('../../../Data/Repository');
+const User = require('../Models/User');
+const Follower = require('../../../domain/Models/Follower');
 const { Op } = require('sequelize');
 
 class UserRepository extends RepositoryBase {
@@ -67,21 +67,6 @@ class UserRepository extends RepositoryBase {
     } catch (error) {
       console.error('Error finding user:', error);
       throw error;
-    }
-  }
-
-  async login(username, password) {
-    try {
-      return await this.model.findOne({
-        where: {
-          [Op.and]: [
-            { username },
-            { password }
-          ]
-        }
-      });
-    } catch (err) {
-      throw err;
     }
   }
 

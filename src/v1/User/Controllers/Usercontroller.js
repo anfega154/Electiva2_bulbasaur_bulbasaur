@@ -1,7 +1,7 @@
 const express = require('express');
-const BaseController = require('../../BaseControlller');
-const HttpStatus = require('../../../../Utils/helpers/Httpstatus')
-const userService = require('../../../../app/services/User/UserService')
+const BaseController = require('../../../infrastucture/api/BaseControlller');
+const HttpStatus = require('../../../Utils/helpers/Httpstatus')
+const userService = require('../Services/UserService')
 
 class UserController extends BaseController {
     constructor() {
@@ -26,16 +26,6 @@ class UserController extends BaseController {
        } catch (err) {
         this.error(res, err, HttpStatus.BAD_REQUEST);
        }
-    }
-
-    async login (req, res) {
-        try {
-            await userService.login(req.body)
-            const message = res.t('messages.login_success')
-            this.success(res,null,message)
-        } catch (error) {
-            this.error(res, err, HttpStatus.BAD_REQUEST);
-        }
     }
 }
 

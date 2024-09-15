@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../infrastucture/database/conection');
+const sequelize = require('../../../infrastucture/database/conection');
 
 const User = sequelize.define('User', {
   name: {
@@ -41,4 +41,4 @@ const User = sequelize.define('User', {
 });
 
 module.exports = User;
-require ('./Associations')
+require ('../../../domain/Models/Associations')
