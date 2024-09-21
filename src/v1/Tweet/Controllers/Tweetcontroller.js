@@ -19,9 +19,10 @@ class TweetController extends BaseController {
         }
      }
 
-       async getAll(req, res) {
+       async getTweets(req, res) {
         try {
-            const tweets = await tweetService.getAll();
+            const { userid, page = 1 , limit = 10} = req.query;
+            const tweets = await tweetService.getTweets(userid,page,limit);
             const message = res.t('messages.Tweets_retrieved_successfully');
             this.success(res, tweets, message);
         } catch (err) {

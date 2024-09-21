@@ -9,9 +9,9 @@ const add = async (data) => {
     }
 }
 
-const getAll = async () => {
+const getTweets = async (userId,page,limit) => {
     try {
-        return await tweetRepository.list()
+        return await tweetRepository.getTweets(userId,page,limit)
     } catch (error) {
         throw (error);
     }
@@ -19,5 +19,5 @@ const getAll = async () => {
 
 module.exports = {
     add,
-    getAll
+    getTweets
 };

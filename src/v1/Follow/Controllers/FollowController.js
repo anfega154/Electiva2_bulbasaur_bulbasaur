@@ -8,6 +8,18 @@ class FollowController extends BaseController {
         super();
     }
 
+    async getFollowers(req, res) {
+        try {
+            const { userid, page = 1 , limit = 10} = req.query;
+            const result = await followService.getFollower(userid, page, limit);
+            const message = res.t('messages.success_ation');
+            this.success(res, result, message);
+        } catch (error) {
+            console.error(error);
+            this.error(res, error, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     async follow (req, res){
         try {
             const { followerid, followingid } = req.query;
@@ -32,22 +44,12 @@ class FollowController extends BaseController {
         } 
     }
 
-    async getFollowers (req, res){
-        try {
-            const { userid } = req.query;
-            const result = await followService.getFollower(userid)
-            const message = res.t('messages.success_ation')
-            this.success(res,result,message)
-        } catch (error) {
-            console.error(error)
-            this.error(res, error, HttpStatus.BAD_REQUEST);
-        } 
-    }
+
 
     async getFollowings (req, res){
         try {
-            const { userid } = req.query;
-            const result = await followService.getFollowings(userid)
+            const { userid, page = 1 , limit = 10} = req.query;
+            const result = await followService.getFollowings(userid, page, limit)
             const message = res.t('messages.success_ation')
             this.success(res,result,message)
         } catch (error) {

@@ -85,17 +85,23 @@ class UserRepository extends RepositoryBase {
     }
   }
 
-  async getFollowers(userId) {
+  async getFollowers(userId, page, limit) {
+    const offset = (page - 1) * limit;
     return await Follower.findAll({
-      where: { followingid: userId },
-      include: [{ model: User, as: 'follower' }],
+        where: { followingid: userId },
+        include: [{ model: User, as: 'follower' }],
+        limit: parseInt(limit),
+        offset: parseInt(offset),
     });
-  }
+}
 
-  async getFollowing(userId) {
+  async getFollowing(userId, page, limit) {
+    const offset = (page - 1) * limit;
     return await Follower.findAll({
       where: { followerid: userId },
       include: [{ model: User, as: 'following' }],
+      limit: parseInt(limit),
+      offset: parseInt(offset),
     });
   }
 

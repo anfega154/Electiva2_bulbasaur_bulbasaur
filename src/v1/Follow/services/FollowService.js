@@ -2,6 +2,7 @@ const UserRepository = require('../../User/Repository/UserRepository')
 const bcrypt = require('bcrypt');
 const userRepository = new UserRepository();
 
+
 const follow = async (followerId, followingId) => {
     try {
         const follower = await userRepository.getById(followerId);
@@ -29,11 +30,11 @@ const follow = async (followerId, followingId) => {
 
 const count = async (userId) => {
     try {
-        const followers= await userRepository.getFollowerCount(userId)
+        const followers = await userRepository.getFollowerCount(userId)
         const following = await userRepository.getFollowingCount(userId)
         return {
-            "followers":followers,
-            "following":following
+            "followers": followers,
+            "following": following
         }
     } catch (error) {
         console.error('Error counting:', error);
@@ -41,18 +42,18 @@ const count = async (userId) => {
     }
 }
 
-const getFollower = async (userId) => {
+const getFollower = async (userId, page, limit) => {
     try {
-        return userRepository.getFollowers(userId)
+        return await userRepository.getFollowers(userId, page, limit);
     } catch (error) {
-        console.error('Error counting:', error);
-        throw error
+        console.error('Error fetching followers:', error);
+        throw error;
     }
-}
+};
 
-const getFollowings = async (userId) => {
+const getFollowings = async (userId, page, limit) => {
     try {
-        return userRepository.getFollowing(userId)
+        return userRepository.getFollowing(userId, page, limit)
     } catch (error) {
         console.error('Error counting:', error);
         throw error
