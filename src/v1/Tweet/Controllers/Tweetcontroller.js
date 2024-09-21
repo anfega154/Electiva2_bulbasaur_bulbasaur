@@ -9,9 +9,9 @@ class TweetController extends BaseController {
     }
 
 
-     createTweet(req,res) {
+     async createTweet(req,res) {
         try {
-        tweetService.add(req.body)
+        await tweetService.add(req.body)
          const message = res.t('messages.Tweet_created_successfully');
          this.success(res,null,message)
         } catch (err) {
@@ -19,9 +19,9 @@ class TweetController extends BaseController {
         }
      }
 
-       getAll(req, res) {
+       async getAll(req, res) {
         try {
-            const tweets = tweetService.getAll();
+            const tweets = await tweetService.getAll();
             const message = res.t('messages.Tweets_retrieved_successfully');
             this.success(res, tweets, message);
         } catch (err) {

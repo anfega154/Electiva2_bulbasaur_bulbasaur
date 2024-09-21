@@ -1,19 +1,17 @@
-const Tweet = require('../../../infrastucture/database/entities/TweetEntity');
 const TweetRepository = require('../Repository/Tweetrepository');
 const tweetRepository = new TweetRepository();
 
-const add = (data) => {
+const add = async (data) => {
     try {
-        let date = new Date();
-        const tweet = new Tweet(date, data.content, data.userid);
-        tweetRepository.create(tweet);
+        await tweetRepository.create(data);
     } catch (error) {
         throw error;
     }
 }
-const getAll = () => {
+
+const getAll = async () => {
     try {
-        return tweetRepository.list();
+        return await tweetRepository.list()
     } catch (error) {
         throw (error);
     }

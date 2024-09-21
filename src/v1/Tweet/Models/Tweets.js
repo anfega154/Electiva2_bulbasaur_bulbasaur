@@ -1,20 +1,25 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../../infrastucture/database/conection');
 const crypto = require('crypto');
+const User = require('../../User/Models/User');
 
 const Tweet = sequelize.define('Tweet', {
-  date: {
+  created_at: {
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
   },
   content: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  userId: {
+  userid: {
     type: DataTypes.INTEGER,
     allowNull: false,
-  },
+    references: {
+        model: User,
+        key: 'id',
+    },
+},
 }, {
   tableName: 'tweets',
   timestamps: false,
