@@ -6,7 +6,7 @@ const checkToken = require('../../../Utils/Middlewares/Auth/AuthMiddleware')
 
 /**
  * @swagger
- * /v1/follow/byusername:
+ * /api/v1/follow/byusername:
  *   get:
  *     summary: Valida el username y si existe lo puede seguir
  *     parameters:

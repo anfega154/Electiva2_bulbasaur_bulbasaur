@@ -6,7 +6,7 @@ const authController = new AuthController()
 
 /**
  * @swagger
- * /v1/login:
+ * /api/v1/login:
  *   post:
  *     summary: Valida los datos de sesión y obtiene el token
  *     requestBody:
