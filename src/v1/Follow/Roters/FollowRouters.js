@@ -9,5 +9,6 @@ router.get('/v1/follow/count',checkToken,(req,res) => followController.count(req
 router.get('/v1/followers',checkToken,(req,res) => followController.getFollowers(req,res));
 router.get('/v1/followings',checkToken,(req,res) => followController.getFollowings(req,res));
 router.get('/v1/follow',checkToken,(req,res) => followController.follow(req,res));
+router.get('/v1/follow/byusername',checkToken,(req,res) => followController.followByUsername(req,res));
 
   module.exports = router;

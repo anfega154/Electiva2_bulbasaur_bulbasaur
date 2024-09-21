@@ -74,10 +74,17 @@ class UserRepository extends RepositoryBase {
     try {
       const follower = await this.getById(followerid);
       const following = await this.getById(followingid);
+  
       if (follower && following) {
-        await Follower.findOrCreate({
+        const existingFollow = await Follower.findOne({
           where: { followerid, followingid },
         });
+  
+        if (!existingFollow) {
+          await Follower.create({ followerid, followingid });
+        } else {
+          throw('El usuario ya sigue a este perfil.');
+        }
       }
     } catch (err) {
       console.error('Error in followUser:', err);

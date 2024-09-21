@@ -57,6 +57,18 @@ class FollowController extends BaseController {
             this.error(res, error, HttpStatus.BAD_REQUEST);
         } 
     }
+
+    async followByUsername (req, res){
+        try {
+            const { followerid, usernamefollowingid } = req.query;
+            const result = await followService.followByUsername(followerid,usernamefollowingid)
+            const message = res.t('messages.success_ation')
+            this.success(res,result,message)
+        } catch (error) {
+            console.error(error)
+            this.error(res, error, HttpStatus.BAD_REQUEST);
+        } 
+    }
 }
 
 module.exports = FollowController;
