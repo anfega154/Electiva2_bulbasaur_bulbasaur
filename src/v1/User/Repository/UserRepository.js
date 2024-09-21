@@ -103,6 +103,10 @@ class UserRepository extends RepositoryBase {
     return await Follower.count({ where: { followingid: userId } });
   }
 
+  async getFollowingCount(userId) {
+    return await Follower.count({ where: { followerid: userId } });
+  }
+
   async findByUsername(username) {
     try {
       return await this.model.findOne({

@@ -29,7 +29,12 @@ const follow = async (followerId, followingId) => {
 
 const count = async (userId) => {
     try {
-        return userRepository.getFollowerCount(userId)
+        const followers= await userRepository.getFollowerCount(userId)
+        const following = await userRepository.getFollowingCount(userId)
+        return {
+            "followers":followers,
+            "following":following
+        }
     } catch (error) {
         console.error('Error counting:', error);
         throw error
