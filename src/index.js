@@ -1,1 +1,1 @@
-require('./infrastucture/config/server');
+require('../src/Config/server');
