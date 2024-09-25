@@ -6,5 +6,6 @@ const check = require('../../../Utils/Middlewares/Tweets/TweetValidate')
 const checkToken = require('../../../Utils/Middlewares/Auth/AuthMiddleware')
 
 router.post('/v1/tweets',checkToken , check.tweetMiddleware,(req, res) => tweetController.createTweet(req,res));
-router.get('/v1/tweets',checkToken ,(req,res) => tweetController.getTweets(req,res));
+router.get('/v1/tweets',checkToken ,(req,res) => tweetController.getTweetsByUser(req,res));
+router.get('/v1/tweets/feed',checkToken ,(req,res) => tweetController.getMyFeed(req,res));
 module.exports = router;     
