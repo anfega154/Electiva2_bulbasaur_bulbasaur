@@ -6,17 +6,19 @@ const httpMocks = require('node-mocks-http');
 jest.mock('jsonwebtoken');
 
 describe('authMiddleware.js', () => {
-    
-    const request = httpMocks.createRequest();
-    const response = httpMocks.createResponse();
-    const next = jest.fn();
+    let request, response, next;
+    beforeEach(() => {
+        request = httpMocks.createRequest();
+        response = httpMocks.createResponse();
+        next = jest.fn();
+    });
     describe('with token not delivered valid', () => {   
         test('should return 401 if no token is delivered', async () => {
             authMiddleware(request, response, next);
 
             const responseData = response._getData();
             expect(response.statusCode).toBe(HttpStatus.UNAUTHORIZED);
-            expect(responseData).toEqual({ message: 'Token not delivered' });
+            expect(responseData).toEqual("{\"message\":\"Token not provided\"}");
             expect(next).not.toHaveBeenCalled();
         });
     });
@@ -52,8 +54,28 @@ describe('authMiddleware.js', () => {
 
             const responseData = response._getData();
             expect(response.statusCode).toBe(HttpStatus.FORBIDDEN);
-            expect(responseData).toEqual({ message: 'Invalid or expired token' });
+            expect(responseData).toEqual("{\"message\":\"Invalid or expired token\"}");
             expect(next).not.toHaveBeenCalled();
         });
     });
+
+    describe('with token expired', () => {      
+        test('should return token is expired', async () => {
+            const mockToken = 'expired.token';
+            
+            request.headers['authorization'] = `Bearer ${mockToken}`;
+            process.env.JWT_SECRET = 'your_jwt_secret';
+
+            jwt.verify.mockImplementation(() => {
+                throw new Error('expired token');
+            });
+
+            authMiddleware(request, response, next);
+
+            const responseData = response._getData();
+            expect(response.statusCode).toBe(HttpStatus.FORBIDDEN);
+            expect(responseData).toEqual("{\"message\":\"Invalid or expired token\"}");
+            expect(next).not.toHaveBeenCalled();
+        });
+    });    
 });

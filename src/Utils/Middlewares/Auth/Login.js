@@ -2,6 +2,7 @@ const { body, validationResult } = require('express-validator');
 const HttpStatus = require('../../helpers/Httpstatus');
 
 exports.loginMiddleware = [
+  
   body('username')
     .notEmpty()
     .withMessage((value, { req }) => req.t('messages.missing_data_to_fill')),
@@ -14,6 +15,8 @@ exports.loginMiddleware = [
 
   (req, res, next) => {
     const errors = validationResult(req);
+    console.log(errors)
+    console.log(req.body)
     if (!errors.isEmpty()) {
       return res.status(HttpStatus.BAD_REQUEST).json({
         status: "error",
