@@ -15,14 +15,15 @@ exports.loginMiddleware = [
 
   (req, res, next) => {
     const errors = validationResult(req);
-    console.log(errors)
-    console.log(req.body)
+    console.log("errores",errors)
+    console.log("que recive ",req.body)
     if (!errors.isEmpty()) {
       return res.status(HttpStatus.BAD_REQUEST).json({
         status: "error",
         message: errors.array().map(err => err.msg).join(', '),
       });
     }
+    res.status(HttpStatus.OK).json({ message: 'Login is correct' });
     next();
   }
 ];
