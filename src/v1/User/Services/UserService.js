@@ -15,7 +15,7 @@ const add = async (data) => {
     try {
         const isCreated = await userRepository.exist(data.email, data.username)
         if(isCreated != null){
-            throw Error('user already exist');
+            throw ('user already exist');
         }
         const hashedPassword = await bcrypt.hash(data.password, 10);
 
