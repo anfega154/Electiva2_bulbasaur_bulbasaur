@@ -9,7 +9,6 @@ jest.mock('sequelize', () => {
     return { Sequelize: jest.fn(() => mSequelize) };
 });
 
-
 const sequelize = new Sequelize('bulbasaur', 'postgres', 'postgres', {
     host: 'localhost',
     dialect: 'postgres',
