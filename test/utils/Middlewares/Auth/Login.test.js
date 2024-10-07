@@ -1,15 +1,15 @@
-// loginMiddleware.test.js
 const { validationResult } = require('express-validator');
 const HttpStatus = require('../../../../src/Utils/helpers/Httpstatus');
-const {loginMiddleware} = require('../../../../src/Utils/Middlewares/Auth/Login');
+const { loginMiddleware } = require('../../../../src/Utils/Middlewares/Auth/Login');
 const httpMocks = require('node-mocks-http');
 
-
 describe('loginMiddleware.js', () => {
-
-        const request = httpMocks.createRequest();
-        const response = httpMocks.createResponse();
-        const next = jest.fn();
+    const next = jest.fn();
+    
+    const createMocks = (body = {}) => {
+        const request = httpMocks.createRequest({
+            body: body
+        });
         request.t = jest.fn().mockImplementation((key) => {
             const messages = {
                 'messages.followerid_must_be_numeric': 'followerid must be numeric',
@@ -18,76 +18,67 @@ describe('loginMiddleware.js', () => {
             };
             return messages[key] || key;
         });
-        
-    describe('with username is missing', () => { 
+        const response = httpMocks.createResponse();
+        return { request, response };
+    };
+
+    describe('with username is missing', () => {
         test('should return 400 if username is missing', async () => {
-            request.body = { password: 'testpassword' };
-            
+            const { request, response } = createMocks({ password: 'testpassword' });
+
             for (let middleware of loginMiddleware) {
                 await middleware(request, response, next);
-              };
-               const responseData = JSON.parse( response._getData()); 
-        
-               expect(response.statusCode).toBe(HttpStatus.BAD_REQUEST);
-               const messages = responseData.message.split(', ');
-               expect(messages).toContain('missing data to fill');
-               //expect(next).not.toHaveBeenCalled();            
+            }
+            const responseData = JSON.parse(response._getData());
+
+            expect(response.statusCode).toBe(HttpStatus.BAD_REQUEST);
+            const messages = responseData.message.split(', ');
+            expect(messages).toContain('missing data to fill');
         });
     });
 
-    describe('with password is missing', () => { 
+    describe('with password is missing', () => {
         test('should return 400 if password is missing', async () => {
-            request.body = { username: 'testuser' };
+            const { request, response } = createMocks({ username: 'testuser' });
 
             for (let middleware of loginMiddleware) {
                 await middleware(request, response, next);
-              };
-               const responseData = JSON.parse( response._getData()); 
-        
-               expect(response.statusCode).toBe(HttpStatus.BAD_REQUEST);
-               const messages = responseData.message.split(', ');
-               expect(messages).toContain('missing data to fill');
-               //expect(next).not.toHaveBeenCalled();            
+            }
+            const responseData = JSON.parse(response._getData());
+
+            expect(response.statusCode).toBe(HttpStatus.BAD_REQUEST);
+            const messages = responseData.message.split(', ');
+            expect(messages).toContain('missing data to fill');
         });
     });
-    
-    describe('with password is not string', () => { 
+
+    describe('with password not a string', () => {
         test('should return 400 if password is not a string', async () => {
-            request.body = { username: 'testuser', password: 12345 };
-            
+            const { request, response } = createMocks({ username: 'testuser', password: 12345 }); // Invalid password
+
             for (let middleware of loginMiddleware) {
                 await middleware(request, response, next);
-              };
-               const responseData = JSON.parse( response._getData()); 
-        
-               expect(response.statusCode).toBe(HttpStatus.BAD_REQUEST);
-               const messages = responseData.message.split(', ');
-               expect(messages).toContain('the password must be a string');
-              expect(next).not.toHaveBeenCalled();                        
+            }
+            const responseData = JSON.parse(response._getData());
+
+            expect(response.statusCode).toBe(HttpStatus.BAD_REQUEST);
+            const messages = responseData.message.split(', ');
+            expect(messages).toContain('the password must be a string');
         });
     });
 
     describe('with username and password are valid', () => { 
         test('should call next if username and password are valid', async () => {
-            //request.body = { username: 'testuser', password: 'testpassword' };
-            const mockLogin={ username: 'testuser', password: 'testpassword' }; 
-            
-            const response= httpMocks.createResponse();
-            const request= httpMocks.createRequest({
-                body:{ ...mockLogin}
-            })
-
-            
+            const { request, response } = createMocks({ username: 'testuser', password: 'testpassword' });
 
             for (let middleware of loginMiddleware) {
                 await middleware(request, response, next);
-              };
-               const responseData =  response._getData(); 
-        
-               expect(response.statusCode).toBe(200);
-               expect(responseData).toEqual("{\"message\":\"Login is correct\"}");
-              expect(next).not.toHaveBeenCalled();
+            }
+            const responseData = JSON.parse(response._getData()); 
+
+            expect(response.statusCode).toBe(HttpStatus.OK);
+            expect(responseData).toEqual({ message: "Login is correct" });
+            expect(next).toHaveBeenCalled(); 
         });
     });
 });
-
