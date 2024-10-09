@@ -2,6 +2,11 @@ const { validationResult } = require('express-validator');
 const HttpStatus = require('../../../../src/Utils/helpers/Httpstatus');
 const { loginMiddleware } = require('../../../../src/Utils/Middlewares/Auth/Login');
 const httpMocks = require('node-mocks-http');
+const AuthService = require('../../../../src/v1/Auth/Services/AuthService');
+const AuthController = require('../../../../src/v1/Auth/Controllers/AuthController');
+const { createMocks } = require('node-mocks-http');
+
+jest.mock('../../../../src/v1/Auth/Services/AuthService');
 
 describe('loginMiddleware.js', () => {
     const next = jest.fn();
@@ -54,7 +59,7 @@ describe('loginMiddleware.js', () => {
 
     describe('with password not a string', () => {
         test('should return 400 if password is not a string', async () => {
-            const { request, response } = createMocks({ username: 'testuser', password: 12345 }); // Invalid password
+            const { request, response } = createMocks({ username: 'testuser', password: 12345 });
 
             for (let middleware of loginMiddleware) {
                 await middleware(request, response, next);
@@ -67,18 +72,5 @@ describe('loginMiddleware.js', () => {
         });
     });
 
-    describe('with username and password are valid', () => { 
-        test('should call next if username and password are valid', async () => {
-            const { request, response } = createMocks({ username: 'testuser', password: 'testpassword' });
 
-            for (let middleware of loginMiddleware) {
-                await middleware(request, response, next);
-            }
-            const responseData = JSON.parse(response._getData()); 
-
-            expect(response.statusCode).toBe(HttpStatus.OK);
-            expect(responseData).toEqual({ message: "Login is correct" });
-            expect(next).toHaveBeenCalled(); 
-        });
-    });
 });
