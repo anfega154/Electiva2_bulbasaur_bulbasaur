@@ -13,7 +13,7 @@ exports.followUserNameMiddleware = [
           throw new Error('Follower ID does not exist');
         }
       }),
-  
+
     body('usernamefollowingid')
       .isString()
       .withMessage((value, { req }) => req.t('messages.usernamefollowingid_must_be_string'))
@@ -22,12 +22,15 @@ exports.followUserNameMiddleware = [
   
     (req, res, next) => {
       const errors = validationResult(req);
+      console.log("que recive", req.body);
+      console.log("error", errors.array());
       if (!errors.isEmpty()) {
         return res.status(HttpStatus.BAD_REQUEST).json({
           status: "error",
           message: errors.array().map(err => err.msg).join(', '),
         });
       }
+      res.status(HttpStatus.OK).json({ message: 'follower is valid' });
       next();
     }
   ];
