@@ -1,10 +1,10 @@
-const User = require('../../v1/User/Models/User');
-const Follower = require('../../v1/Follow/Models/Follower');
-const Tweet = require('../../v1/Tweet/Models/Tweets');
+const User = require('../../../src/v1/Tweet/Models/Tweets');
+const Follower = require('../../../src/v1/Follow/Models/Follower');
+const Tweet = require('../../../src/v1/Tweet/Models/Tweets');
 
-jest.mock('../../v1/Follow/Models/Follower');
-jest.mock('../../v1/Tweet/Models/Tweets');
-jest.mock('../../v1/User/Models/User');
+jest.mock('../../../src/v1/Follow/Models/Follower');
+jest.mock('../../../src/v1/Tweet/Models/Tweets');
+jest.mock('../../../src/v1/Tweet/Models/Tweets');
 
 describe('Model Associations', () => {
     beforeAll(() => {
