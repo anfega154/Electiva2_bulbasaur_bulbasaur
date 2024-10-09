@@ -16,7 +16,7 @@ exports.tweetMiddleware = [
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(HttpStatus.BAD_REQUEST).json({
-        status: "error",
+        status: false,
         message: errors.array().map(err => err.msg).join(', '),
       });
     }

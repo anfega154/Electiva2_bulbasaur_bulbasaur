@@ -19,13 +19,25 @@ class TweetController extends BaseController {
         }
      }
 
-       async getTweets(req, res) {
+       async getTweetsByUser(req, res) {
         try {
             const { userid, page = 1 , limit = 10} = req.query;
             const tweets = await tweetService.getTweets(userid,page,limit);
             const message = res.t('messages.Tweets_retrieved_successfully');
             this.success(res, tweets, message);
         } catch (err) {
+            this.error(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    async getMyFeed(req, res) {
+        try {
+            const { userid, page = 1 , limit = 10} = req.query;
+            const tweets = await tweetService.getMyFeed(userid,page,limit);
+            const message = res.t('messages.Tweets_retrieved_successfully');
+            this.success(res, tweets, message);
+        } catch (err) {
+            console.error(err)
             this.error(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

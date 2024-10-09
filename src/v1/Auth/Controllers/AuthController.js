@@ -17,7 +17,6 @@ class AuthController extends BaseController {
                 process.env.JWT_SECRET,
                 { expiresIn: '1h' }
             );
-            console.log(token)
             const message = res.t('messages.login_success')
             this.success(res, { token }, message);
         } catch (error) {
