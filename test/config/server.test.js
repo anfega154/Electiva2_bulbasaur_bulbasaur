@@ -44,20 +44,29 @@ describe('Server.js', () => {
 
     describe('with initialize the express', () => {
         test('should initialize the express app and middleware', () => {
-            expect(express).toHaveBeenCalled(); // Asegura que express fue llamado
-            expect(mockUse).toHaveBeenCalledWith(cors()); // Verifica que se llama cors
+            expect(express).toHaveBeenCalled(); 
+            expect(mockUse).toHaveBeenCalledWith(cors()); 
             expect(mockUse).toHaveBeenCalledWith(express.urlencoded({ extended: true }));
             expect(mockUse).toHaveBeenCalledWith(express.json());
-            expect(mockUse).toHaveBeenCalledWith(i18n.init); // Verifica la inicialización de i18n
-            expect(mockUse).toHaveBeenCalledWith('/api-docs', swaggerUi.serve, swaggerUi.setup(expect.anything())); // Verifica swagger
+            expect(mockUse).toHaveBeenCalledWith(i18n.init); 
+            expect(mockUse).toHaveBeenCalledWith('/api-docs', swaggerUi.serve, swaggerUi.setup(expect.anything()));
         });
     });
 
     describe('with listen on the correct port', () => {
-        test('should listen on the correct port', () => {
+        test('should listen on the correct port and log the correct message', () => {
+            const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
             const PORT = process.env.PORT || 3700;
-
+    
+            
             expect(mockListen).toHaveBeenCalledWith(PORT, expect.any(Function));
+    
+            const listenCallback = mockListen.mock.calls[0][1];
+            listenCallback();
+    
+            expect(consoleSpy).toHaveBeenCalledWith(`server in  http://localHost:${PORT}`);
+    
+            consoleSpy.mockRestore();
         });
     });
 });
