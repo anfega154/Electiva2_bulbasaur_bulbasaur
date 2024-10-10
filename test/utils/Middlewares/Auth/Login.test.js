@@ -71,6 +71,17 @@ describe('loginMiddleware.js', () => {
             expect(messages).toContain('the password must be a string');
         });
     });
+//aqui evaluamos el next()
+    describe('with valid username and password', () => {
+        test('should call next() if there are no validation errors', async () => {
+            const { request, response } = createMocks({ username: 'testuser', password: 'testpassword' });
 
+            for (let middleware of loginMiddleware) {
+                await middleware(request, response, next);
+            }
+            expect(next).toHaveBeenCalled();
+            expect(response.statusCode).toBe(HttpStatus.OK);
+        });
+    });
 
 });

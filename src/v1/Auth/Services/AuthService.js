@@ -11,7 +11,6 @@ const login = async (data) => {
         }
 
         const isPasswordValid = await bcrypt.compare(data.password, user.password);
-        
         if (!isPasswordValid) {
             throw ('username or password invalid');
         }
