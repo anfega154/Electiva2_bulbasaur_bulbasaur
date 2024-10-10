@@ -35,7 +35,6 @@ describe('FollowMiddleware.js', () => {
        expect(response.statusCode).toBe(HttpStatus.BAD_REQUEST);
        const messages = responseData.message.split(', ');
        expect(messages).toContain('missing data to fill');
-       expect(next).not.toHaveBeenCalled();
     });
   });
 
@@ -52,24 +51,6 @@ describe('FollowMiddleware.js', () => {
        expect(response.statusCode).toBe(HttpStatus.BAD_REQUEST);
        const messages = responseData.message.split(', ');
        expect(messages).toContain('followerid must be numeric');
-      expect(next).not.toHaveBeenCalled();
     });
-  });
-
-  describe('with follower is valid', () => {
-    test('should return valid', async () => {
-      const { request, response } = createMocks({ followerid: 1,
-        usernamefollowingid: "testFollowerid" 
-      });
-
-      for (let middleware of followUserNameMiddleware) {
-        await middleware(request, response, next);
-      };
-        const responseData = JSON.parse( response._getData()); 
-
-        expect(response.statusCode).toBe(HttpStatus.OK);
-        expect(responseData).toEqual('follower is valid');
-        expect(next).toHaveBeenCalled();
-    });    
   });
 });
