@@ -1,19 +1,25 @@
-const Tweet = require('../../../infrastucture/database/entities/TweetEntity');
 const TweetRepository = require('../Repository/Tweetrepository');
 const tweetRepository = new TweetRepository();
 
-const add = (data) => {
+const add = async (data) => {
     try {
-        let date = new Date();
-        const tweet = new Tweet(date, data.content, data.userid);
-        tweetRepository.create(tweet);
+        await tweetRepository.create(data);
     } catch (error) {
         throw error;
     }
 }
-const getAll = () => {
+
+const getTweets = async (userId,page,limit) => {
     try {
-        return tweetRepository.list();
+        return await tweetRepository.getTweetsByUser(userId,page,limit)
+    } catch (error) {
+        throw (error);
+    }
+}
+
+const getMyFeed = async (userId,page,limit) => {
+    try {
+        return await tweetRepository.getFeedTweets(userId,page,limit)
     } catch (error) {
         throw (error);
     }
@@ -21,5 +27,6 @@ const getAll = () => {
 
 module.exports = {
     add,
-    getAll
+    getTweets,
+    getMyFeed
 };

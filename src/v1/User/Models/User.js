@@ -35,6 +35,10 @@ const User = sequelize.define('User', {
       isEmail: true,
     },
   },
+  avatarurl:{
+    type: DataTypes.STRING,
+    allowNull: true,
+  }
 }, {
   tableName: 'users',
   timestamps: false,

@@ -9,9 +9,9 @@ class TweetController extends BaseController {
     }
 
 
-     createTweet(req,res) {
+     async createTweet(req,res) {
         try {
-        tweetService.add(req.body)
+        await tweetService.add(req.body)
          const message = res.t('messages.Tweet_created_successfully');
          this.success(res,null,message)
         } catch (err) {
@@ -19,12 +19,25 @@ class TweetController extends BaseController {
         }
      }
 
-       getAll(req, res) {
+       async getTweetsByUser(req, res) {
         try {
-            const tweets = tweetService.getAll();
+            const { userid, page = 1 , limit = 10} = req.query;
+            const tweets = await tweetService.getTweets(userid,page,limit);
             const message = res.t('messages.Tweets_retrieved_successfully');
             this.success(res, tweets, message);
         } catch (err) {
+            this.error(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    async getMyFeed(req, res) {
+        try {
+            const { userid, page = 1 , limit = 10} = req.query;
+            const tweets = await tweetService.getMyFeed(userid,page,limit);
+            const message = res.t('messages.Tweets_retrieved_successfully');
+            this.success(res, tweets, message);
+        } catch (err) {
+            console.error(err)
             this.error(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

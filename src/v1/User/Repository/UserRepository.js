@@ -74,10 +74,17 @@ class UserRepository extends RepositoryBase {
     try {
       const follower = await this.getById(followerid);
       const following = await this.getById(followingid);
+  
       if (follower && following) {
-        await Follower.findOrCreate({
+        const existingFollow = await Follower.findOne({
           where: { followerid, followingid },
         });
+  
+        if (!existingFollow) {
+          await Follower.create({ followerid, followingid });
+        } else {
+          throw('El usuario ya sigue a este perfil.');
+        }
       }
     } catch (err) {
       console.error('Error in followUser:', err);
@@ -85,22 +92,32 @@ class UserRepository extends RepositoryBase {
     }
   }
 
-  async getFollowers(userId) {
+  async getFollowers(userId, page, limit) {
+    const offset = (page - 1) * limit;
     return await Follower.findAll({
-      where: { followingid: userId },
-      include: [{ model: User, as: 'follower' }],
+        where: { followingid: userId },
+        include: [{ model: User, as: 'follower' }],
+        limit: parseInt(limit),
+        offset: parseInt(offset),
     });
-  }
+}
 
-  async getFollowing(userId) {
+  async getFollowing(userId, page, limit) {
+    const offset = (page - 1) * limit;
     return await Follower.findAll({
       where: { followerid: userId },
       include: [{ model: User, as: 'following' }],
+      limit: parseInt(limit),
+      offset: parseInt(offset),
     });
   }
 
   async getFollowerCount(userId) {
     return await Follower.count({ where: { followingid: userId } });
+  }
+
+  async getFollowingCount(userId) {
+    return await Follower.count({ where: { followerid: userId } });
   }
 
   async findByUsername(username) {
