@@ -3,6 +3,7 @@ const BaseController = require('../../../infrastucture/api/BaseControlller');
 const HttpStatus = require('../../../Utils/helpers/Httpstatus')
 const followService = require('../services/FollowService')
 const dataToken = require('../../../Utils/helpers/dataByToken')
+const { getIdOnsession} = require('../../../Utils/Middlewares/Auth/TokenMiddleware')
 
 class FollowController extends BaseController {
     constructor() {
@@ -11,7 +12,8 @@ class FollowController extends BaseController {
 
     async getFollowers(req, res) {
         try {
-            const { userid, page = 1 , limit = 10} = req.query;
+            const userid = getIdOnsession(req);
+            const {page = 1 , limit = 10} = req.query;
             const result = await followService.getFollower(userid, page, limit);
             const message = res.t('messages.success_ation');
             this.success(res, result, message);
@@ -23,7 +25,8 @@ class FollowController extends BaseController {
 
     async follow (req, res){
         try {
-            const { followerid, followingid } = req.query;
+            const followerid = getIdOnsession(req);
+            const {followingid } = req.query;
             const result = await followService.follow(followerid,followingid)
             const message = res.t('messages.success_ation')
             this.success(res,result,message)
@@ -35,7 +38,7 @@ class FollowController extends BaseController {
 
     async count (req, res){
         try {
-            const { userid } = req.query;
+            const userid = getIdOnsession(req);
             const result = await followService.count(userid)
             const message = res.t('messages.success_ation')
             this.success(res,result,message)
@@ -49,7 +52,8 @@ class FollowController extends BaseController {
 
     async getFollowings (req, res){
         try {
-            const { userid, page = 1 , limit = 10} = req.query;
+            const userid = getIdOnsession(req);
+            const {page = 1 , limit = 10} = req.query;
             const result = await followService.getFollowings(userid, page, limit)
             const message = res.t('messages.success_ation')
             this.success(res,result,message)
@@ -61,7 +65,8 @@ class FollowController extends BaseController {
 
     async followByUsername (req, res){
         try {
-            const { followerid, usernamefollowingid } = req.query;
+            const followerid = getIdOnsession(req);
+            const {usernamefollowingid } = req.query;
             const result = await followService.followByUsername(followerid,usernamefollowingid)
             const message = res.t('messages.success_ation')
             this.success(res,result,message)
@@ -72,9 +77,10 @@ class FollowController extends BaseController {
 
     async followersAndFollowings(req, res) {
         try {
+            const userid = getIdOnsession(req);
             const token = req.headers.authorization.split(" ")[1];
             const userLogged = dataToken.extractUserIdFromToken(token);
-            const { userid, page = 1, limit = 10 } = req.query;
+            const {page = 1, limit = 10 } = req.query;
     
             const followings = await followService.getFollowings(userid, page, limit);
             const followers = await followService.getFollower(userid, page, limit);
