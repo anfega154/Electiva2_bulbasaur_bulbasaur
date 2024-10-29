@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router();
 const checkLogin = require('../../../Utils/Middlewares/Auth/Login')
 const AuthController = require('../../Auth/Controllers/AuthController')
+const checkToken = require('../../../Utils/Middlewares/Auth/AuthMiddleware')
 const authController = new AuthController()
 
 /**
@@ -57,5 +58,7 @@ const authController = new AuthController()
  *                   example: Invalid email or password
  */
 router.post('/v1/login', checkLogin.loginMiddleware, (req, res) => authController.login(req, res));
+
+router.get('/v1/logout', checkToken,(req, res) => authController.logout(req, res));
 
 module.exports = router;

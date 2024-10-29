@@ -13,6 +13,7 @@
 		"success_ation": "success action",
 		"followerid_must_be_numeric": "messages.followerid_must_be_numeric",
 		"usernamefollowingid_must_be_string": "messages.usernamefollowingid_must_be_string",
-		"success_action": "messages.success_action"
+		"success_action": "messages.success_action",
+		"logout_success": "logout success"
 	}
 }

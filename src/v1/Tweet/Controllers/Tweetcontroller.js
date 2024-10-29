@@ -2,6 +2,7 @@ const express = require('express');
 const BaseController = require('../../../infrastucture/api/BaseControlller');
 const HttpStatus = require('../../../Utils/helpers/Httpstatus')
 const tweetService = require('../Services/TweetsService')
+const { getIdOnsession} = require('../../../Utils/Middlewares/Auth/TokenMiddleware')
 
 class TweetController extends BaseController {
     constructor() {
@@ -21,7 +22,8 @@ class TweetController extends BaseController {
 
        async getTweetsByUser(req, res) {
         try {
-            const { userid, page = 1 , limit = 10} = req.query;
+            const userid = getIdOnsession(req);
+            const {page = 1 , limit = 10} = req.query;
             const tweets = await tweetService.getTweets(userid,page,limit);
             const message = res.t('messages.Tweets_retrieved_successfully');
             this.success(res, tweets, message);
@@ -32,7 +34,8 @@ class TweetController extends BaseController {
 
     async getMyFeed(req, res) {
         try {
-            const { userid, page = 1 , limit = 10} = req.query;
+            const userid = getIdOnsession(req);
+            const {page = 1 , limit = 10} = req.query;
             const tweets = await tweetService.getMyFeed(userid,page,limit);
             const message = res.t('messages.Tweets_retrieved_successfully');
             this.success(res, tweets, message);

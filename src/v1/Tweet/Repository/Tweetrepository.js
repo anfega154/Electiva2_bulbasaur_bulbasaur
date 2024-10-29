@@ -39,20 +39,16 @@ class TweetRepository extends RepositoryBase {
         try {
             const offset = (page - 1) * limit;
     
-            // First, get the IDs of users the current user is following
             const followingRecords = await this.follow.findAll({
                 where: { followerid: userId }, // Use lowercase "followerid"
             });
             
-            // Check if followingRecords is an array and map the followingIds
             const followingIds = Array.isArray(followingRecords)
                 ? followingRecords.map(follow => follow.followingId)
                 : [];
             
-            // Include the user's own ID in the list to also fetch their tweets
             const userAndFollowingIds = [userId, ...followingIds];
     
-            // Then, get the tweets from those users
             const tweets = await this.model.findAll({
                 whereIn: {
                     userid: userAndFollowingIds
