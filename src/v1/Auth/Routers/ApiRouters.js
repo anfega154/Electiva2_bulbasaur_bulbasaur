@@ -17,11 +17,13 @@ const authController = new AuthController()
  *           schema:
  *             type: object
  *             properties:
- *               email:
+ *               username:
  *                 type: string
- *                 example: user@example.com
+ *                 description: Nombre de usuario del usuario
+ *                 example: yourusername123
  *               password:
  *                 type: string
+ *                 description: Contraseña del usuario
  *                 example: yourpassword123
  *     responses:
  *       200:
@@ -55,9 +57,45 @@ const authController = new AuthController()
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: Invalid email or password
+ *                   example: Invalid username or password
  */
 router.post('/v1/login', checkLogin.loginMiddleware, (req, res) => authController.login(req, res));
+
+/**
+ * @swagger
+ * /api/v1/logout:
+ *   get:
+ *     summary: Cierra la sesión del usuario invalidando el token actual
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Logout exitoso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: logout success
+ *       401:
+ *         description: Token inválido o no proporcionado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Unauthorized
+ */
 
 router.get('/v1/logout', checkToken,(req, res) => authController.logout(req, res));
 
