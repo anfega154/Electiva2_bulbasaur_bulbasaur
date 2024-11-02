@@ -7,10 +7,7 @@ exports.tweetMiddleware = [
     .withMessage((value, { req }) => req.t('messages.missing_data_to_fill'))
     .isLength({ max: 280 })
     .withMessage((value, { req }) => req.t('messages.content_too_long')), 
-  
-  body('userid')
-    .notEmpty()
-    .withMessage((value, { req }) => req.t('messages.missing_data_to_fill')),
+
 
   (req, res, next) => {
     const errors = validationResult(req);

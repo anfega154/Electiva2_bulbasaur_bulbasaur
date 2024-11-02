@@ -12,6 +12,8 @@ class TweetController extends BaseController {
 
      async createTweet(req,res) {
         try {
+        const userid = getIdOnsession(req);
+        req.body.userid = userid;
         await tweetService.add(req.body)
          const message = res.t('messages.Tweet_created_successfully');
          this.success(res,null,message)

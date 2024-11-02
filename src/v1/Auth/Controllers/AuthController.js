@@ -15,7 +15,7 @@ class AuthController extends BaseController {
         try {
             const user = await AuthrService.login(req.body)
             const token = jwt.sign(
-                { id: user.id, email: user.email },
+                { id: user.id, email: user.email, username: user.username, avatarurl: user.avatarurl, name: user.name },
                 process.env.JWT_SECRET,
                 { expiresIn: '2h' }
             );

@@ -1,11 +1,13 @@
 const Tweet = require('../../Tweet/Models/Tweets')
 const RepositoryBase = require('../../../infrastucture/database/Repository');
 const follow = require('../../Follow/Models/Follower')
+const User = require('../../User/Models/User')
 
 class TweetRepository extends RepositoryBase {
     constructor() {
         super(Tweet);
         this.follow = follow
+        this.userModel = User
     }
 
     async create(tweet) {
@@ -40,7 +42,7 @@ class TweetRepository extends RepositoryBase {
             const offset = (page - 1) * limit;
     
             const followingRecords = await this.follow.findAll({
-                where: { followerid: userId }, // Use lowercase "followerid"
+                where: { followerid: userId },
             });
             
             const followingIds = Array.isArray(followingRecords)
@@ -53,10 +55,14 @@ class TweetRepository extends RepositoryBase {
                 whereIn: {
                     userid: userAndFollowingIds
                 },
-                attributes: ['created_at', 'content', 'userid'],
+                attributes: ['id', 'created_at', 'content'],
                 order: [['created_at', 'DESC']],
                 limit: parseInt(limit),
-                offset: parseInt(offset)
+                offset: parseInt(offset),
+                include: [{
+                    model: this.userModel,
+                    attributes: ['id', 'name', 'username', 'avatarurl']
+                }]
             });
     
             return tweets;
